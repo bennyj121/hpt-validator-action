@@ -57,7 +57,7 @@ runs:
       shell: bash
       run: |
         npm install @cmsgov/hpt-validator-cli@1.10.8 --prefix "$RUNNER_TEMP/hptcli"
-        echo "$RUNNER_TEMP/hptcli/bin" >> "$GITHUB_PATH"
+        echo "$RUNNER_TEMP/hptcli/node_modules/.bin" >> "$GITHUB_PATH"
     - id: fetch
       shell: bash
       env:
