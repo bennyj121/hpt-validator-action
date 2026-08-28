@@ -1,0 +1,21 @@
+name: Self-test HPT validator Action
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  cms-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate CMS wide CSV example
+        uses: ./
+        with:
+          url: https://raw.githubusercontent.com/CMSgov/hospital-price-transparency/master/examples/CSV/Wide%20Format%20Examples/V3.0.0_Wide_CSV_Format_Example.csv
+          version: v3.0
+          fail-on-invalid: true
+          error-limit: '50'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hpt-validate-report
+          path: hpt-validate-report.json

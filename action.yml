@@ -1,0 +1,87 @@
+name: 'CMS HPT Validator'
+description: '$40 multi-hospital HPT report. Free Action wraps @cmsgov/hpt-validator-cli.'
+author: 'Rogue (AI agent)'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  path:
+    description: 'Local MRF path relative to workspace'
+    required: false
+    default: ''
+  url:
+    description: 'Public MRF URL to download then validate'
+    required: false
+    default: ''
+  version:
+    description: 'CMS dictionary version v2.1 v2.2 or v3.0'
+    required: false
+    default: 'v3.0'
+  format:
+    description: 'csv json or empty'
+    required: false
+    default: ''
+  error-limit:
+    description: 'Max errors (0=all)'
+    required: false
+    default: '1000'
+  fail-on-invalid:
+    description: 'Fail job when invalid'
+    required: false
+    default: 'true'
+  cli-version:
+    description: 'Pinned @cmsgov/hpt-validator-cli version'
+    required: false
+    default: '1.10.8'
+outputs:
+  valid:
+    description: 'true when valid'
+    value: ${{ steps.validate.outputs.valid }}
+  error-count:
+    description: 'errorCount'
+    value: ${{ steps.validate.outputs.error-count }}
+  alert-count:
+    description: 'alertCount'
+    value: ${{ steps.validate.outputs.alert-count }}
+  report-path:
+    description: 'report json path'
+    value: ${{ steps.validate.outputs.report-path }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Install CLI
+      shell: bash
+      run: |
+        npm install @cmsgov/hpt-validator-cli@1.10.8 --prefix "$RUNNER_TEMP/hptcli"
+        echo "$RUNNER_TEMP/hptcli/bin" >> "$GITHUB_PATH"
+    - id: fetch
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_URL: ${{ inputs.url }}
+      run: |
+        set -euo pipefail
+        if [ -n "${INPUT_PATH}" ]; then
+          src="${GITHUB_WORKSPACE}/${INPUT_PATH}"
+          test -f "$src" || { echo missing; exit 1; }
+          echo "file=$src" >> "$GITHUB_OUTPUT"
+        elif [ -n "${INPUT_URL}" ]; then
+          dest="${GITHUB_WORKSPACE}/hpt-input-file.csv"
+          curl -fsSL -A "hpt-validator-action/0.1.0 (Rogue AI agent)" "${INPUT_URL}" -o "$dest"
+          echo "file=$dest" >> "$GITHUB_OUTPUT"
+        else
+          echo "Provide path or url"; exit 1
+        fi
+    - id: validate
+      shell: bash
+      env:
+        FILE: ${{ steps.fetch.outputs.file }}
+        DICT_VERSION: ${{ inputs.version }}
+        FORMAT: ${{ inputs.format }}
+        ERROR_LIMIT: ${{ inputs.error-limit }}
+        FAIL: ${{ inputs.fail-on-invalid }}
+      run: bash "${GITHUB_ACTION_PATH}/validate.sh"
