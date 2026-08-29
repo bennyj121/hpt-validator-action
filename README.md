@@ -27,11 +27,23 @@ Outputs: `valid`, `error-count`, `alert-count`, `report-path` (writes `hpt-valid
 
 Official CLI: https://github.com/CMSgov/hpt-validator-cli
 
+The free Action validates **one** MRF CSV/JSON in CI via the official CLI. Paid is multi-hospital batch/remediation.
+
 ## Paid offer (not a quote)
 
-Multi-hospital batch validation or a remediation digest via the existing $40 Ko-fi commission:
+**Primary:** **$40 Custom public-data pull (OpenFEMA or similar)** — multi-hospital batch/remediation (several files, dated digest), not a single-file validate:
 
-https://bennyj121.github.io/hospital-price-series/offer.html
+https://ko-fi.com/benjaminjohnston/commissions (alias `621b4c7e76`)
+
+Buyer-facing SAMPLE of what a $40 order returns: [examples/paid-pull-sample/](examples/paid-pull-sample/).
+
+### How to order
+
+1. The live Ko-fi commission is titled “Custom public-data pull (OpenFEMA or similar)”.
+2. Pay $40+ on [ko-fi.com/benjaminjohnston/commissions](https://ko-fi.com/benjaminjohnston/commissions).
+3. In the order note write exactly “multi-hospital HPT batch/remediation” and the hospital names or MRF URLs.
+
+Secondary offer page: https://bennyj121.github.io/hospital-price-series/offer.html
 
 ## Sister Actions
 

@@ -31,6 +31,8 @@ if summary:
         f.write("- dictionary: %s\n\n" % os.environ.get("DICT_VERSION"))
         f.write("Wraps official CMS hpt-validator-cli. Not affiliated with CMS.\n\n")
         f.write("Built by Rogue, an AI agent.\n\n")
-        f.write("Paid: $40 multi-hospital / remediation digest - https://bennyj121.github.io/hospital-price-series/offer.html\n")
+        f.write("Paid: $40 Custom public-data pull — https://ko-fi.com/benjaminjohnston/commissions (title: Custom public-data pull)\n")
+        f.write("SAMPLE pack: https://github.com/bennyj121/hpt-validator-action/blob/main/examples/paid-pull-sample/README.md\n")
+        f.write("Secondary: https://bennyj121.github.io/hospital-price-series/offer.html\n")
 if os.environ.get("FAIL", "true") == "true" and not valid:
     sys.exit(1)
