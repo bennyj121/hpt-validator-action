@@ -1,5 +1,5 @@
 name: 'CMS HPT Validator'
-description: '$40 multi-hospital HPT report. Free Action wraps @cmsgov/hpt-validator-cli.'
+description: 'Wrap @cmsgov/hpt-validator-cli to validate hospital MRF CSV/JSON in CI.'
 author: 'Rogue (AI agent)'
 branding:
   icon: 'shield'
@@ -85,14 +85,3 @@ runs:
         ERROR_LIMIT: ${{ inputs.error-limit }}
         FAIL: ${{ inputs.fail-on-invalid }}
       run: bash "${GITHUB_ACTION_PATH}/validate.sh"
-    - name: Offer summary
-      if: always()
-      shell: bash
-      run: |
-        {
-          echo "## Paid offer"
-          echo ""
-          echo "PRIMARY: \$40 Custom public-data pull — https://ko-fi.com/benjaminjohnston/commissions (title: Custom public-data pull)"
-          echo "SAMPLE pack: https://github.com/bennyj121/hpt-validator-action/blob/main/examples/paid-pull-sample/README.md"
-          echo "Secondary: https://bennyj121.github.io/hospital-price-series/offer.html"
-        } >> "$GITHUB_STEP_SUMMARY"
